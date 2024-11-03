@@ -29,6 +29,13 @@ object ANSI {
     const val CTRL_DOWN = "\u001b[1;5B"
     const val CTRL_LEFT = "\u001b[1;5D"
     const val CTRL_RIGHT = "\u001b[1;5C"
+    const val DEFAULT_CURSOR = "\u001b[0 q"
+    const val BLINK_BLOCK_CURSOR = "\u001b[1 q"
+    const val STABLE_BLOCK_CURSOR = "\u001b[2 q"
+    const val BLINK_UNDERLINE_CURSOR = "\u001b[3 q"
+    const val STABLE_UNDERLINE_CURSOR = "\u001b[4 q"
+    const val BLINK_LINE_CURSOR = "\u001b[5 q"
+    const val STABLE_LINE_CURSOR = "\u001b[6 q"
 
     data class Unit(val prefix: String, val content: Any = "", val suffix: String = "") {
         private val lazyOriginString: Lazy<String> = lazy { getOriginString(content) }
@@ -54,6 +61,31 @@ object ANSI {
 
     fun unit(arg: Any): Unit {
         return Unit("", arg)
+    }
+
+    // 在光标位置插入n个空格
+    fun insertBlock(n: Int): Unit {
+        return Unit("\u001b[${n}@")
+    }
+
+    // 在光标位置插入n行
+    fun insertLine(n: Int): Unit {
+        return Unit("\u001b[${n}L")
+    }
+
+    // 用空格替换光标位置后的n个字符
+    fun replaceBlock(n: Int): Unit {
+        return Unit("\u001b[${n}X")
+    }
+
+    // 删除光标位置后的n个字符
+    fun delChar(n: Int): Unit {
+        return Unit("\u001b[${n}P")
+    }
+
+    // 删除光标所在和以后的n行
+    fun delLine(n: Int): Unit {
+        return Unit("\u001b[${n}M")
     }
 
     fun cursorUp(rows: Int = 1): Unit {
@@ -129,7 +161,7 @@ object ANSI {
     fun reportSize(): Unit {
         return Unit("\u001b[18t")
     }
-    
+
     fun decodeSize(str: String): Pair<Int, Int>? {
         val regex = """\u001b\[\d+;(\d+);(\d+)t""".toRegex()
         val matchResult = regex.find(str)
