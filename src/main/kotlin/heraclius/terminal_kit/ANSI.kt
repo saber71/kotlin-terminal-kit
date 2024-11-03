@@ -126,6 +126,21 @@ object ANSI {
         return Unit("\u001b[u")
     }
 
+    fun reportSize(): Unit {
+        return Unit("\u001b[18t")
+    }
+    
+    fun decodeSize(str: String): Pair<Int, Int>? {
+        val regex = """\u001b\[\d+;(\d+);(\d+)t""".toRegex()
+        val matchResult = regex.find(str)
+        if (matchResult != null) {
+            val (row, column) = matchResult.destructured
+            return Pair(row.toInt(), column.toInt())
+        } else {
+            return null
+        }
+    }
+
     fun reportCursorPosition(): Unit {
         return Unit("\u001b[6n")
     }
