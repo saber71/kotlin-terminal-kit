@@ -3,6 +3,33 @@ package heraclius.terminal_kit
 import java.awt.Color
 
 object ANSI {
+    const val INSERT = "\u001b[2~"
+    const val DELETE = "\u001b[3~"
+    const val PAGE_UP = "\u001b[5~"
+    const val PAGE_DOWN = "\u001b[6~"
+    const val UP = "\u001b[A"
+    const val DOWN = "\u001b[B"
+    const val LEFT = "\u001b[D"
+    const val RIGHT = "\u001b[C"
+    const val HOME = "\u001b[H"
+    const val END = "\u001b[F"
+    const val F1 = "\u001bOP"
+    const val F2 = "\u001bOQ"
+    const val F3 = "\u001bOR"
+    const val F4 = "\u001bOS"
+    const val F5 = "\u001b[15~"
+    const val F6 = "\u001b[17~"
+    const val F7 = "\u001b[18~"
+    const val F8 = "\u001b[19~"
+    const val F9 = "\u001b[20~"
+    const val F10 = "\u001b[21~"
+    const val F11 = "\u001b[23~"
+    const val F12 = "\u001b[24~"
+    const val CTRL_UP = "\u001b[1;5A"
+    const val CTRL_DOWN = "\u001b[1;5B"
+    const val CTRL_LEFT = "\u001b[1;5D"
+    const val CTRL_RIGHT = "\u001b[1;5C"
+
     data class Unit(val prefix: String, val content: Any = "", val suffix: String = "") {
         private val lazyOriginString: Lazy<String> = lazy { getOriginString(content) }
 
